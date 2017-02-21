@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Blog</title>
+    </head>
+
+    <style type="text/css">
+        body {
+            font-family: arial;
+            width: 800px;
+            margin: 0 auto;
+            padding: 10px
+        }
+
+        .error{
+            color: red
+        }
+
+        label {
+            display: block;
+            font-size: 20px
+        }
+
+        input [type = text] {
+            width: 400px;
+            font-size: 20px;
+            padding: 2px
+        }
+
+        textarea {
+            width: 400px;
+            height: 200px;
+            font-size: 20px;
+            font-family: arial
+        }
+
+        input [type=submit] {
+            font-size: 24px;
+        }
+
+        hr {
+            margin: 20px auto;
+        }
+        </style>
+
+    <body>
+        <h1>Blog</h1>
+        <p>
+            <a href="/">Blog Posts</a>
+        </p>
+        <p>
+            <a href="/blog/newpost">New Post</a>
+        </p>
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
