@@ -35,6 +35,7 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
+
 class BlogPosts(db.Model):
     title = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
@@ -62,14 +63,27 @@ class NewPost(Handler):
         if title and content:
             b = BlogPosts(title = title, content = content)
             b.put()
-
-            self.redirect("/")
+            self.redirect('/blog/{}'.format(str(b.key().id())))
 
         else:
             error = "we need both a title and some content!"
             self.render_front(title, content, error)
 
+class ViewPostHandler(Handler):
+    def get(self, id):
+        blog = BlogPosts.get_by_id(int(id))
+        if blog:
+            t = jinja_env.get_template("viewpost.html")
+            content = t.render(blog = blog)
+
+        else:
+            content = "that's an invalid id"
+
+        self.response.write(content)
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/blog/newpost', NewPost)
+    ('/blog', MainPage),
+    ('/blog/newpost', NewPost),
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
 ], debug=True)
